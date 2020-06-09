@@ -39,6 +39,11 @@ var numberOfClicksSession;
 numberOfClicksSession = sessionStorage.getItem('session_clicks');
 numberOfClicksSession = isNaN(numberOfClicksSession) ? 0 : numberOfClicksSession;
 
+var pages;
+pages = sessionStorage.getItem('number_pages');
+pages = (pages === null) ? 0 : pages;
+
+
 // Numri i sesioneve
 
 var sessionNumber = localStorage.getItem('session_numbers');
@@ -187,7 +192,7 @@ function updateReturnCount() {
     }
   });}
   }
-  
+
 updateReturnCount();
 
 tot=uniq+ret;
@@ -242,7 +247,7 @@ countEle3.innerHTML = res.value;
 fetch('https://api.countapi.xyz/get/analytics/opera')
 .then(res => res.json())
 .then(res => {
-countEl4.innerHTML = res.value;
+countEle4.innerHTML = res.value;
 })
 fetch('https://api.countapi.xyz/get/analytics/internetexplorer')
 .then(res => res.json())
@@ -338,7 +343,7 @@ else if (b == "Firefox"){
       fetch('https://api.countapi.xyz/get/analytics/safari')
       .then(res => res.json())
       .then(res => {
-      countEl3.innerHTML = res.value;
+      countEle3.innerHTML = res.value;
       })
       fetch('https://api.countapi.xyz/get/analytics/internetexplorer')
       .then(res => res.json())
@@ -642,6 +647,3 @@ else {
 }
 }
 countDevice();
-
-
-
