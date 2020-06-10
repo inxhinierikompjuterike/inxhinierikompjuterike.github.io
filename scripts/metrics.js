@@ -39,11 +39,6 @@ var numberOfClicksSession;
 numberOfClicksSession = sessionStorage.getItem('session_clicks');
 numberOfClicksSession = isNaN(numberOfClicksSession) ? 0 : numberOfClicksSession;
 
-var pages;
-pages = sessionStorage.getItem('number_pages');
-pages = (pages === null) ? 0 : pages;
-
-
 // Numri i sesioneve
 
 var sessionNumber = localStorage.getItem('session_numbers');
@@ -104,13 +99,23 @@ sessioncounter();
 
 const countEl = document.getElementById('count');
 
+var pageViews;
+
 function updateVisitCount() {
 
-  fetch('https://api.countapi.xyz/update/analitycs/visits/?amount=1')
-	.then(res => res.json())
-	.then(res => {
-		countEl.innerHTML = res.value;
-	})
+  $.ajax({
+    type: 'GET',
+    url: 'https://api.countapi.xyz/update/analitycs/visits/?amount=1',
+    async: false,
+    data:"",
+    success: function(response){
+      pageViews = response.value;
+      countEl.innerHTML = pageViews;
+    },
+    error: function() {
+       alert("Your error message goes here");
+    }
+  });
 }
 updateVisitCount();
 
@@ -195,10 +200,25 @@ function updateReturnCount() {
 
 updateReturnCount();
 
+// Total Visitors
+
 tot=uniq+ret;
 $('.tot').html(tot);
 
-$('.avgNumberOfSession').html((Math.round((nrsession/tot) * 100)/ 100));
+// Average Number of Session Per User
+
+var avgNumbSession;
+avgNumbSession = nrsession / tot ;
+
+$('.avgNumberOfSession').html((Math.round(avgNumbSession * 100)/ 100));
+
+
+// Pages/Session
+
+var pagesPerSession;
+pagesPerSession = pageViews / nrsession ;
+
+$('.pagesPerSession').html((Math.round(pagesPerSession * 100)/ 100));
 
 // Numrimi i vizitoreve ne baze te browsersit qe perdorin
 
